@@ -10,9 +10,19 @@ th {
       <th
         v-for="col in columns"
         :key="col.c"
-        :style="{ width: col.width }">
+        :style="{ width: col.width }"
+      >
+        <span
+          @click="onCellClick(col)"
+        >
+          {{ col.d }}
+        </span>
 
-        <span @click="onCellClick(col)">{{ col.d }}</span>
+        <MatrixHeaderFilter
+          v-if="filterable"
+          :column="col"
+          :rows="rows"
+        ></MatrixHeaderFilter>
       </th>
     </tr>
   </thead>
@@ -21,10 +31,18 @@ th {
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component
+import MatrixHeaderFilter from "./MatrixHeaderFilter.vue";
+
+@Component({
+  components: {
+    MatrixHeaderFilter
+  }
+})
 export default class MatrixHeader extends Vue {
   // props
   @Prop() private columns!: any[];
+
+  @Prop() private rows!: any[];
 
   @Prop() private filterable!: boolean;
 

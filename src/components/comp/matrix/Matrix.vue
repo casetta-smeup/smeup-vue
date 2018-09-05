@@ -22,6 +22,7 @@
     <table>
       <MatrixHeader
         :columns="columns"
+        :rows="rows"
         :filterable="filterable"
         :sortable="sortable"
         :scroll="scroll"
@@ -40,7 +41,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import MatrixBody from "./MatrixBody.vue";
-import MatrixHeader from "./MatrixHeader.vue";
+import MatrixHeader from "./header/MatrixHeader.vue";
 
 import mockedData from "@/mock/dataTable";
 
@@ -54,7 +55,7 @@ export default class Matrix extends Vue {
   // data
   manyRows: boolean = false;
 
-  filterable: boolean = false;
+  filterable: boolean = true;
 
   sortable: boolean = false;
 
@@ -81,6 +82,8 @@ export default class Matrix extends Vue {
 
   // computed props
   get filteredRows() {
+    console.log("calculate filteredRows");
+
     const filteredRows = this.rows.filter(r => {
       const columnsWithFilter = this.columns.filter(
         c => c.filterValue.length > 0
@@ -89,6 +92,7 @@ export default class Matrix extends Vue {
         // there is atleast a filter
         return (
           columnsWithFilter.filter(c => {
+            console.log("column", c.filterValue);
             let rowCell = r.content[c.c];
             if (rowCell) {
               return rowCell.c.includes(c.filterValue);
@@ -126,10 +130,6 @@ export default class Matrix extends Vue {
   }
 
   // methods
-  created() {
-    console.log("created!", this.rows);
-  }
-
   onSort($event: any) {
     this.sortByColumn = $event.c;
   }
