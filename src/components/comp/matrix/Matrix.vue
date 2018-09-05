@@ -92,13 +92,21 @@ export default class Matrix extends Vue {
         // there is atleast a filter
         return (
           columnsWithFilter.filter(c => {
-            console.log("column", c.filterValue);
             let rowCell = r.content[c.c];
             if (rowCell) {
-              return rowCell.c.includes(c.filterValue);
-            } else {
-              return false;
+              // checking if filter is an array
+              if (Array.isArray(c.filterValue)) {
+                for (let i = 0; i < c.filterValue.length; i++) {
+                  if (rowCell.c.includes(c.filterValue[i])) {
+                    return true;
+                  }
+                }
+              } else {
+                return rowCell.c.includes(c.filterValue);
+              }
             }
+
+            return false;
           }).length == columnsWithFilter.length
         );
       }

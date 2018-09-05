@@ -14,6 +14,7 @@
     <el-select
       v-else
       placeholder="Choose one"
+      :multiple="true"
       v-model="column.filterValue">
 
       <el-option
