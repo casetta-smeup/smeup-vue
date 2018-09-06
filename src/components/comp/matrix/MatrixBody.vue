@@ -43,7 +43,8 @@ tbody {
       <template v-if="row.group">
         <td>
           <div @click="row.collapsed = !row.collapsed">
-            <chevron-right />
+            <chevron-right v-if="row.collapsed" />
+            <chevron-down v-else />
           </div>
         </td>
 
@@ -55,7 +56,7 @@ tbody {
       </template>
 
       <template v-else>
-        <td></td>
+        <td v-if="grouping"></td>
         <td
           v-for="column in columns"
           :key="column.c"
@@ -71,10 +72,12 @@ tbody {
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ChevronRight from "vue-material-design-icons/ChevronRight.vue";
+import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
 
 @Component({
   components: {
-    ChevronRight
+    ChevronRight,
+    ChevronDown
   }
 })
 export default class MatrixBody extends Vue {

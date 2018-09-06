@@ -2,6 +2,11 @@
   <div id="app">
     <div class="playground">
       <el-checkbox
+        v-model="sorting"
+        border
+      >Abilita sorting</el-checkbox>
+
+      <el-checkbox
         v-model="grouping"
         border
         @change="onGroupingChange"
@@ -10,6 +15,7 @@
 
     <Matrix
       :grouping="grouping"
+      :sortable="sorting"
       :rows="rows" />
   </div>
 </template>
@@ -27,6 +33,7 @@ import { dataTableFewRows, groupedRows } from "./mock/dataTable";
 })
 export default class App extends Vue {
   grouping = false;
+  sorting = false;
 
   rows: any[] = dataTableFewRows;
 

@@ -55,6 +55,8 @@ import { dataTableCols } from "@/mock/dataTable";
 })
 export default class Matrix extends Vue {
   // props
+  @Prop() private sortable!: boolean;
+
   @Prop() private grouping!: boolean;
 
   @Prop() private rows!: any[];
@@ -63,8 +65,6 @@ export default class Matrix extends Vue {
   manyRows: boolean = false;
 
   filterable: boolean = false;
-
-  sortable: boolean = false;
 
   sortByColumn: any = null;
 
@@ -97,7 +97,13 @@ export default class Matrix extends Vue {
 
         if (r.group && !r.collapsed) {
           // adding children
-          r.children.forEach((child: any) => filteredRows.push(child));
+          let _tempRows: any[];
+          if (this.sortable) {
+            _tempRows = this.sortRows(r.children);
+          } else {
+            _tempRows = r.children;
+          }
+          _tempRows.forEach((child: any) => filteredRows.push(child));
         }
       });
 
@@ -132,18 +138,12 @@ export default class Matrix extends Vue {
       }
       return true;
     });
+
     // check sorting
     if (this.sortByColumn) {
-      return filteredRows.sort((r1, r2) => {
-        const val1 = r1.content[this.sortByColumn].c;
-        const val2 = r2.content[this.sortByColumn].c;
-        // check if ascending or descending sort
-        const sortMode = this.columns.filter(c => c.c === this.sortByColumn)[0]
-          .sortMode;
-        const compare = val1.localeCompare(val2);
-        return sortMode === "A" ? compare : compare * -1;
-      });
+      return this.sortRows(filteredRows);
     }
+
     // check pagination
     if (this.pagination.enabled) {
       const start =
@@ -160,6 +160,19 @@ export default class Matrix extends Vue {
   // methods
   onSort($event: any) {
     this.sortByColumn = $event.c;
+  }
+
+  sortRows(_rows: any[]) {
+    return _rows.sort((r1, r2) => {
+      const val1 = r1.content[this.sortByColumn].c;
+      const val2 = r2.content[this.sortByColumn].c;
+      // check if ascending or descending sort
+      const sortMode = this.columns.filter(c => c.c === this.sortByColumn)[0]
+        .sortMode;
+
+      const compare = val1.localeCompare(val2);
+      return sortMode === "A" ? compare : compare * -1;
+    });
   }
 }
 </script>
