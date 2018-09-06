@@ -44,7 +44,10 @@ export default class MatrixHeaderFilter extends Vue {
 
   get comboValues() {
     // distinct values + sort
-    const values = this.rows.map(row => row.content[this.column.c].c).sort();
+    const values = this.rows
+      .filter(row => !row.group)
+      .map(row => row.content[this.column.c].c)
+      .sort();
 
     return ["", ...new Set(values)];
   }

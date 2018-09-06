@@ -26,24 +26,26 @@
         :filterable="filterable"
         :sortable="sortable"
         :scroll="scroll"
+        :grouping="grouping"
         @sortby="onSort($event)"
       ></MatrixHeader>
 
       <MatrixBody
         :columns="columns"
         :rows="filteredRows"
+        :grouping="grouping"
       ></MatrixBody>
     </table>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 import MatrixBody from "./MatrixBody.vue";
 import MatrixHeader from "./header/MatrixHeader.vue";
 
-import mockedData from "@/mock/dataTable";
+import { dataTableCols } from "@/mock/dataTable";
 
 @Component({
   components: {
@@ -52,10 +54,15 @@ import mockedData from "@/mock/dataTable";
   }
 })
 export default class Matrix extends Vue {
+  // props
+  @Prop() private grouping!: boolean;
+
+  @Prop() private rows!: any[];
+
   // data
   manyRows: boolean = false;
 
-  filterable: boolean = true;
+  filterable: boolean = false;
 
   sortable: boolean = false;
 
@@ -76,13 +83,26 @@ export default class Matrix extends Vue {
     scrollLeft: 0
   };
 
-  columns: any[] = mockedData.dataTableCols;
-
-  rows: any[] = mockedData.dataTableFewRows;
+  columns: any[] = dataTableCols;
 
   // computed props
-  get filteredRows() {
-    console.log("calculate filteredRows");
+  get filteredRows(): any[] {
+    if (this.grouping) {
+      // trasformo l'albero in una lista
+      const filteredRows: any[] = [];
+
+      this.rows.forEach(r => {
+        // add row
+        filteredRows.push(r);
+
+        if (r.group && !r.collapsed) {
+          // adding children
+          r.children.forEach((child: any) => filteredRows.push(child));
+        }
+      });
+
+      return filteredRows;
+    }
 
     const filteredRows = this.rows.filter(r => {
       const columnsWithFilter = this.columns.filter(

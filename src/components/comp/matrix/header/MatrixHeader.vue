@@ -8,6 +8,11 @@ th {
   <thead>
     <tr>
       <th
+        v-if="grouping"
+        style="width: 20px"
+      ></th>
+
+      <th
         v-for="col in columns"
         :key="col.c"
         :style="{ width: col.width }"
@@ -47,6 +52,8 @@ export default class MatrixHeader extends Vue {
   @Prop() private filterable!: boolean;
 
   @Prop() private sortable!: boolean;
+
+  @Prop() private grouping!: boolean;
 
   // methods
   onCellClick(col: any) {

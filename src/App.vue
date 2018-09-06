@@ -1,6 +1,16 @@
 <template>
   <div id="app">
-    <Matrix />
+    <div class="playground">
+      <el-checkbox
+        v-model="grouping"
+        border
+        @change="onGroupingChange"
+      >Abilita raggruppamenti</el-checkbox>
+    </div>
+
+    <Matrix
+      :grouping="grouping"
+      :rows="rows" />
   </div>
 </template>
 
@@ -8,12 +18,26 @@
 import { Component, Vue } from "vue-property-decorator";
 import Matrix from "./components/comp/matrix/Matrix.vue";
 
+import { dataTableFewRows, groupedRows } from "./mock/dataTable";
+
 @Component({
   components: {
     Matrix
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  grouping = false;
+
+  rows: any[] = dataTableFewRows;
+
+  onGroupingChange() {
+    if (this.grouping) {
+      this.rows = groupedRows;
+    } else {
+      this.rows = dataTableFewRows;
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -24,5 +48,9 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  .playground {
+    margin-bottom: 1rem;
+  }
 }
 </style>

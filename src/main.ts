@@ -2,14 +2,11 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 
-import { Input, Option, Select } from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
+import "./plugins/Element"
+
+import "vue-material-design-icons/styles.css"
 
 Vue.config.productionTip = false;
-
-Vue.use(Input);
-Vue.use(Option);
-Vue.use(Select);
 
 new Vue({
   store,
