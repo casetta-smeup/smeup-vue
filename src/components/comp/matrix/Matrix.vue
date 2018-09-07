@@ -42,7 +42,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import MatrixBody from "./MatrixBody.vue";
+import MatrixBody from "./body/MatrixBody.vue";
 import MatrixHeader from "./header/MatrixHeader.vue";
 
 import { dataTableCols } from "@/mock/dataTable";

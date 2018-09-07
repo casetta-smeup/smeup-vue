@@ -61,10 +61,10 @@ export default class MatrixHeaderFilter extends Vue {
       // TODO
       if (_row.children) {
         _row.children
-          .map(child => this.getComboValuesRic(child))
-          .forEach(_values => {
-            _values.forEach(_value => values.push(_value));
-          });
+          .map((child: any) => this.getComboValuesRic(child))
+          .forEach((_values: any) =>
+            _values.forEach((_value: any) => values.push(_value))
+          );
       }
     } else {
       values.push(_row.content[this.column.c].c);

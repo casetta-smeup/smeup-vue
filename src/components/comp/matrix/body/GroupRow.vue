@@ -1,0 +1,58 @@
+<style lang="scss" scoped>
+tr.group-row {
+  background-color: yellow;
+
+  td {
+    padding: 5px;
+    border: 1px solid black;
+    border-left: none;
+    border-right: none;
+    text-align: left;
+  }
+}
+</style>
+
+<template>
+  <tr
+    class="group-row"
+    @click="toggleRowCollapse"
+  >
+    <td>
+      <div @click.stop="toggleRowCollapse">
+        <chevron-right v-if="row.collapsed" />
+        <chevron-down v-else />
+      </div>
+    </td>
+
+    <td
+      :colspan="columns.length"
+    >
+      {{ row.text }}
+    </td>
+  </tr>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+import ChevronRight from "vue-material-design-icons/ChevronRight.vue";
+import ChevronDown from "vue-material-design-icons/ChevronDown.vue";
+
+@Component({
+  components: {
+    ChevronRight,
+    ChevronDown
+  }
+})
+export default class DataRow extends Vue {
+  // props
+  @Prop() private columns!: any[];
+
+  @Prop() private row!: any;
+
+  // methods
+  toggleRowCollapse() {
+    this.row.collapsed = !this.row.collapsed;
+  }
+}
+</script>
