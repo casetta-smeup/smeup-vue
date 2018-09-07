@@ -50,9 +50,23 @@ export default class DataRow extends Vue {
 
   @Prop() private row!: any;
 
+  // computed
+  get groupRows(): any[] {
+    const groupRows = new Array();
+
+    groupRows.push(this.row);
+
+    if (!this.row.collapsed) {
+      groupRows.push(this.row.children);
+    }
+
+    return groupRows;
+  }
+
   // methods
   toggleRowCollapse() {
-    this.row.collapsed = !this.row.collapsed;
+    // this.row.collapsed = !this.row.collapsed;
+    this.$emit("rowtoggled", this.row);
   }
 }
 </script>

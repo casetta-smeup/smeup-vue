@@ -1,84 +1,3 @@
-import faker from "faker";
-
-const columns = [];
-
-const rows = [];
-
-// creating columns
-for (let i = 0; i < 20; i++) {
-  columns.push("COL" + i);
-}
-
-for (let i = 0; i < 1000; i++) {
-  var row = {};
-
-  for (let j = 0; j < columns.length; j++) {
-    // faking number
-    const num = faker.random.number();
-    row[columns[j]] = num;
-  }
-
-  rows.push(row);
-}
-
-const starWarRows = [
-  {
-    title: "Episode IV – A New Hope",
-    date: "May 25, 1977",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode V – The Empire Strikes Back",
-    date: "May 21, 1980",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode VI – Return of the Jedi",
-    date: "May 25, 1983",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode I – The Phantom Menace",
-    date: "May 19, 1999",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode II – Attack of the Clones",
-    date: "May 16, 2002",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode III – Revenge of the Sith",
-    date: "May 19, 2005",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode VII – The Force Awakens",
-    date: "December 18, 2015",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode VII – The Last Jedi",
-    date: "December 15, 2017",
-    director: "George Lucas"
-  },
-  {
-    title: "Episode IX – Uomo Focaccina is Jar Jar Binks",
-    date: "December 20, 2019",
-    director: "George Lucas"
-  },
-  {
-    title: "Rogue One: A Star Wars Story",
-    date: "December 16, 2016",
-    director: "Gareth Edwards"
-  },
-  {
-    title: "Solo: A Star Wars Story",
-    date: "May 25, 2018",
-    director: "Ron Howard"
-  }
-];
-
 export const dataTableCols = [
   {
     c: "STR001",
@@ -481,34 +400,138 @@ export const groupedRows = [
   }
 ];
 
-const dataTableManyCols = new Array();
-
-for (let i = 0; i < 20; i++) {
-  dataTableManyCols.push({
-    c: "STR00" + i,
-    d: faker.random.word(),
-    p: "",
+export const comuniCols = [
+  {
     t: "",
+    p: "",
+    c: "COL01",
+    d: "Regione",
     filterValue: "",
-    sortMode: "D"
-  });
-}
+    sortMode: "D",
+    width: "auto"
+  },
+  {
+    t: "",
+    p: "",
+    c: "COL02",
+    d: "Provincia",
+    filterValue: "",
+    sortMode: "D",
+    width: "auto"
+  },
+  {
+    t: "",
+    p: "",
+    c: "COL03",
+    d: "Comune",
+    filterValue: "",
+    sortMode: "D",
+    width: "auto"
+  },
+  {
+    t: "NR",
+    p: "",
+    c: "COL04",
+    d: "Popolazione",
+    filterValue: "",
+    sortMode: "D",
+    width: "auto"
+  }
+];
 
-const dataTableManyRows = new Array();
-
-for (let i = 0; i < 1000; i++) {
-  const obj = {
-    mouseOver: false,
-    selected: false,
-    content: {
-      RowId: { c: i, p: "", t: "NR" },
-      ID: { c: i, p: "", t: "NR" }
-    }
-  };
-
-  dataTableManyCols.forEach(
-    col => (obj.content[col.c] = { c: faker.random.word(), p: "", t: "" })
-  );
-
-  dataTableManyRows.push(obj);
-}
+export const comuniRows = [
+  {
+    group: true,
+    collapsed: true,
+    text: "Regione = Piemonte",
+    children: [
+      {
+        group: true,
+        collapsed: true,
+        text: "Provincia = Torino",
+        children: [
+          {
+            selected: false,
+            content: {
+              COL01: { t: "", p: "", c: "Piemonte" },
+              COL02: { t: "", p: "", c: "Torino" },
+              COL03: { t: "", p: "", c: "Torino" },
+              COL04: { t: "NR", p: "", c: "899455" },
+              RowId: { t: "NR", p: "", c: "1" },
+              ID: { t: "NR", p: "", c: "1" }
+            }
+          },
+          {
+            selected: false,
+            content: {
+              COL01: { t: "", p: "", c: "Piemonte" },
+              COL02: { t: "", p: "", c: "Torino" },
+              COL03: { t: "", p: "", c: "Rivoli" },
+              COL04: { t: "NR", p: "", c: "48629" },
+              RowId: { t: "NR", p: "", c: "2" },
+              ID: { t: "NR", p: "", c: "2" }
+            }
+          }
+        ]
+      },
+      {
+        group: true,
+        collapsed: true,
+        text: "Provincia = Cuneo",
+        children: [
+          {
+            selected: false,
+            content: {
+              COL01: { t: "", p: "", c: "Piemonte" },
+              COL02: { t: "", p: "", c: "Cuneo" },
+              COL03: { t: "", p: "", c: "Cuneo" },
+              COL04: { t: "NR", p: "", c: "56281" },
+              RowId: { t: "NR", p: "", c: "3" },
+              ID: { t: "NR", p: "", c: "3" }
+            }
+          },
+          {
+            selected: false,
+            content: {
+              COL01: { t: "", p: "", c: "Piemonte" },
+              COL02: { t: "", p: "", c: "Cuneo" },
+              COL03: { t: "", p: "", c: "Alba" },
+              COL04: { t: "NR", p: "", c: "31498" },
+              RowId: { t: "NR", p: "", c: "4" },
+              ID: { t: "NR", p: "", c: "4" }
+            }
+          }
+        ]
+      },
+      {
+        group: true,
+        collapsed: true,
+        text: "Provincia = Asti (che provincia brutta)",
+        children: [
+          {
+            selected: false,
+            content: {
+              COL01: { t: "", p: "", c: "Piemonte" },
+              COL02: { t: "", p: "", c: "Asti" },
+              COL03: { t: "", p: "", c: "Asti" },
+              COL04: { t: "NR", p: "", c: "76211" },
+              RowId: { t: "NR", p: "", c: "5" },
+              ID: { t: "NR", p: "", c: "5" }
+            }
+          },
+          {
+            selected: false,
+            content: {
+              COL01: { t: "", p: "", c: "Piemonte" },
+              COL02: { t: "", p: "", c: "Asti" },
+              COL03: { t: "", p: "", c: "Canelli" },
+              COL04: { t: "NR", p: "", c: "10465" },
+              RowId: { t: "NR", p: "", c: "6" },
+              ID: { t: "NR", p: "", c: "6" }
+            }
+          }
+        ]
+      }
+    ]
+  }
+];

@@ -9,6 +9,7 @@
         :key="index"
         :columns="columns"
         :row="row"
+        @rowtoggled="onRowToggled"
       />
 
       <DataRow
@@ -59,6 +60,10 @@ export default class MatrixBody extends Vue {
       .forEach(row => (row.selected = false));
 
     $event.row.selected = true;
+  }
+
+  onRowToggled($event: any) {
+    this.$emit("rowtoggled", $event);
   }
 }
 </script>

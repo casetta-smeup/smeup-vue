@@ -34,6 +34,7 @@
         :columns="columns"
         :rows="filteredRows"
         :grouping="grouping"
+        @rowtoggled="onRowToggled"
       ></MatrixBody>
     </table>
   </div>
@@ -44,8 +45,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 import MatrixBody from "./body/MatrixBody.vue";
 import MatrixHeader from "./header/MatrixHeader.vue";
-
-import { dataTableCols } from "@/mock/dataTable";
 
 @Component({
   components: {
@@ -60,6 +59,8 @@ export default class Matrix extends Vue {
   @Prop() private sortable!: boolean;
 
   @Prop() private grouping!: boolean;
+
+  @Prop() private columns!: any[];
 
   @Prop() private rows!: any[];
 
@@ -83,10 +84,9 @@ export default class Matrix extends Vue {
     scrollLeft: 0
   };
 
-  columns: any[] = dataTableCols;
-
   // computed props
   get filteredRows(): any[] {
+    console.log("RICALCOLO!");
     if (this.grouping) {
       // trasformo l'albero in una lista
       const filteredRows: any[] = [];
@@ -102,12 +102,21 @@ export default class Matrix extends Vue {
           // filter
           const filteredChildren = this.filterRows(r.children);
 
+          console.log("filteredChildren", filteredChildren);
+
           if (this.sortable) {
             _tempRows = this.sortRows(filteredChildren);
           } else {
             _tempRows = filteredChildren;
           }
-          _tempRows.forEach((child: any) => filteredRows.push(child));
+
+          _tempRows.forEach((child: any) => {
+            filteredRows.push(child);
+
+            if (child.group && !child.collapsed) {
+              child.children.forEach(c => filteredRows.push(c));
+            }
+          });
         }
       });
 
@@ -182,6 +191,39 @@ export default class Matrix extends Vue {
       const compare = val1.localeCompare(val2);
       return sortMode === "A" ? compare : compare * -1;
     });
+  }
+
+  onRowToggled($event: any) {
+    let group = null;
+
+    // searching for group
+    for (let i = 0; i < this.rows.length; i++) {
+      const child = this.rows[i];
+
+      if (child.group) {
+        if (child.text === $event.text) {
+          group = child;
+          break;
+        }
+
+        for (let j = 0; j < child.children.length; j++) {
+          const child2 = child.children[j];
+
+          if (child2.text === $event.text) {
+            group = child2;
+            break;
+          }
+        }
+
+        if (group) {
+          break;
+        }
+      }
+    }
+
+    if (group) {
+      group.collapsed = !group.collapsed;
+    }
   }
 }
 </script>
