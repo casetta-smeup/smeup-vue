@@ -55,6 +55,8 @@ import { dataTableCols } from "@/mock/dataTable";
 })
 export default class Matrix extends Vue {
   // props
+  @Prop() private filterable!: boolean;
+
   @Prop() private sortable!: boolean;
 
   @Prop() private grouping!: boolean;
@@ -63,8 +65,6 @@ export default class Matrix extends Vue {
 
   // data
   manyRows: boolean = false;
-
-  filterable: boolean = false;
 
   sortByColumn: any = null;
 
@@ -98,10 +98,14 @@ export default class Matrix extends Vue {
         if (r.group && !r.collapsed) {
           // adding children
           let _tempRows: any[];
+
+          // filter
+          const filteredChildren = this.filterRows(r.children);
+
           if (this.sortable) {
-            _tempRows = this.sortRows(r.children);
+            _tempRows = this.sortRows(filteredChildren);
           } else {
-            _tempRows = r.children;
+            _tempRows = filteredChildren;
           }
           _tempRows.forEach((child: any) => filteredRows.push(child));
         }
@@ -110,7 +114,30 @@ export default class Matrix extends Vue {
       return filteredRows;
     }
 
-    const filteredRows = this.rows.filter(r => {
+    // filter row
+    const filteredRows = this.filterRows(this.rows);
+
+    // check sorting
+    if (this.sortByColumn) {
+      return this.sortRows(filteredRows);
+    }
+
+    // check pagination
+    if (this.pagination.enabled) {
+      const start =
+        (1 * this.pagination.pageSize - this.pagination.pageSize) *
+        this.pagination.currentPage;
+      const end = this.pagination.pageSize * this.pagination.currentPage;
+      // console.log("start", start);
+      // console.log("end", end);
+      return filteredRows.splice(start, end);
+    }
+    return filteredRows;
+  }
+
+  // methods
+  filterRows(_rows: any[]) {
+    return _rows.filter(r => {
       const columnsWithFilter = this.columns.filter(
         c => c.filterValue.length > 0
       );
@@ -138,26 +165,8 @@ export default class Matrix extends Vue {
       }
       return true;
     });
-
-    // check sorting
-    if (this.sortByColumn) {
-      return this.sortRows(filteredRows);
-    }
-
-    // check pagination
-    if (this.pagination.enabled) {
-      const start =
-        (1 * this.pagination.pageSize - this.pagination.pageSize) *
-        this.pagination.currentPage;
-      const end = this.pagination.pageSize * this.pagination.currentPage;
-      // console.log("start", start);
-      // console.log("end", end);
-      return filteredRows.splice(start, end);
-    }
-    return filteredRows;
   }
 
-  // methods
   onSort($event: any) {
     this.sortByColumn = $event.c;
   }

@@ -44,15 +44,33 @@ export default class MatrixHeaderFilter extends Vue {
 
   get comboValues() {
     // distinct values + sort
-    const values = this.rows
-      .filter(row => !row.group)
-      .map(row => row.content[this.column.c].c)
-      .sort();
+    const values: any[] = new Array();
 
-    return ["", ...new Set(values)];
+    this.rows
+      .map(r => this.getComboValuesRic(r))
+      .forEach(_values => _values.forEach(_value => values.push(_value)));
+
+    return ["", ...new Set(values)].sort();
   }
 
   // methods
-  onValueChange() {}
+  getComboValuesRic(_row: any): any[] {
+    const values = new Array();
+
+    if (_row.group) {
+      // TODO
+      if (_row.children) {
+        _row.children
+          .map(child => this.getComboValuesRic(child))
+          .forEach(_values => {
+            _values.forEach(_value => values.push(_value));
+          });
+      }
+    } else {
+      values.push(_row.content[this.column.c].c);
+    }
+
+    return values;
+  }
 }
 </script>
