@@ -11,6 +11,12 @@ export default new Vuex.Store({
     dataTableFewRows,
     groupedRows
   },
-  mutations: {},
+
+  mutations: {
+    rowSelected(state, row) {
+      state.dataTableFewRows.push(row);
+    }
+  },
+
   actions: {}
 });

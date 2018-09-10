@@ -59,6 +59,8 @@ export default class MatrixBody extends Vue {
       .forEach(row => (row.selected = false));
 
     $event.row.selected = true;
+
+    this.$emit("rowselect", $event);
   }
 
   onRowToggled($event: any) {

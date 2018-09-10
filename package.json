@@ -12,10 +12,12 @@
   "dependencies": {
     "element-ui": "^2.4.6",
     "faker": "^4.1.0",
+    "lodash": "^4.17.10",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-material-design-icons": "^2.1.1",
     "vue-property-decorator": "^7.0.0",
+    "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

@@ -35,6 +35,7 @@
         :rows="filteredRows"
         :grouping="grouping"
         @rowtoggled="onRowToggled"
+        @rowselect="onRowSelected"
       ></MatrixBody>
     </table>
   </div>
@@ -242,6 +243,10 @@ export default class Matrix extends Vue {
     });
 
     return groupedRows;
+  }
+
+  onRowSelected($event: any) {
+    this.$emit("rowselected", $event);
   }
 }
 </script>
