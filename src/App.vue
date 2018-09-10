@@ -11,7 +11,10 @@
       </el-radio-group>
     </div>
 
-    <div class="playground">
+    <div
+      class="playground"
+      v-if="false"
+    >
       <el-checkbox
         v-model="sorting"
         border
@@ -43,13 +46,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import Matrix from "./components/comp/matrix/Matrix.vue";
 
-import {
-  dataTableCols,
-  dataTableFewRows,
-  groupedRows,
-  comuniCols,
-  comuniRows
-} from "./mock/dataTable";
+import { comuniCols, comuniRows } from "./mock/dataTable";
 
 @Component({
   components: {
@@ -63,16 +60,16 @@ export default class App extends Vue {
 
   dataType = 0;
 
-  columns: any[] = dataTableCols;
+  columns: any[] = this.$store.state.dataTableCols;
 
-  rows: any[] = dataTableFewRows;
+  rows: any[] = this.$store.state.dataTableFewRows;
 
   onDataTypeChange() {
     switch (this.dataType) {
       case 1:
         this.grouping = true;
-        this.columns = dataTableCols;
-        this.rows = groupedRows;
+        this.columns = this.$store.state.dataTableCols;
+        this.rows = this.$store.state.groupedRows;
         break;
 
       case 2:
@@ -83,8 +80,8 @@ export default class App extends Vue {
 
       default:
         this.grouping = false;
-        this.columns = dataTableCols;
-        this.rows = dataTableFewRows;
+        this.columns = this.$store.state.dataTableCols;
+        this.rows = this.$store.state.dataTableFewRows;
         break;
     }
   }

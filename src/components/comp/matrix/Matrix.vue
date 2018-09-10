@@ -95,7 +95,7 @@ export default class Matrix extends Vue {
         filteredRows.push(r);
 
         if (r.group && !r.collapsed) {
-          this.getGroupRows(r).forEach((_tr: any) => filteredRows.push(_tr))
+          this.getGroupRows(r).forEach((_tr: any) => filteredRows.push(_tr));
         }
       });
 
@@ -160,7 +160,7 @@ export default class Matrix extends Vue {
   }
 
   sortRows(_rows: any[]) {
-    const filteredRows = _rows.filter((r : any) => !r.group);
+    const filteredRows = _rows.filter((r: any) => !r.group);
 
     if (filteredRows.length == 0) {
       return _rows;
@@ -215,7 +215,7 @@ export default class Matrix extends Vue {
     }
   }
 
-  getGroupRows(groupRow: any) : any[] {
+  getGroupRows(groupRow: any): any[] {
     const groupedRows = new Array();
 
     // adding children
