@@ -17,16 +17,15 @@ tr.group-row {
     class="group-row"
     @click="toggleRowCollapse"
   >
-    <td>
-      <div @click.stop="toggleRowCollapse">
-        <chevron-right v-if="row.collapsed" />
-        <chevron-down v-else />
-      </div>
-    </td>
-
     <td
       :colspan="columns.length"
+      :style="{paddingLeft: (row.level * 20) + 'px' }"
     >
+      <span @click.stop="toggleRowCollapse">
+        <chevron-right v-if="row.collapsed" />
+        <chevron-down v-else />
+      </span>
+
       {{ row.text }}
     </td>
   </tr>

@@ -86,7 +86,6 @@ export default class Matrix extends Vue {
 
   // computed props
   get filteredRows(): any[] {
-    console.log("RICALCOLO!");
     if (this.grouping) {
       // trasformo l'albero in una lista
       const filteredRows: any[] = [];
@@ -96,27 +95,7 @@ export default class Matrix extends Vue {
         filteredRows.push(r);
 
         if (r.group && !r.collapsed) {
-          // adding children
-          let _tempRows: any[];
-
-          // filter
-          const filteredChildren = this.filterRows(r.children);
-
-          console.log("filteredChildren", filteredChildren);
-
-          if (this.sortable) {
-            _tempRows = this.sortRows(filteredChildren);
-          } else {
-            _tempRows = filteredChildren;
-          }
-
-          _tempRows.forEach((child: any) => {
-            filteredRows.push(child);
-
-            if (child.group && !child.collapsed) {
-              child.children.forEach(c => filteredRows.push(c));
-            }
-          });
+          this.getGroupRows(r).forEach((_tr: any) => filteredRows.push(_tr))
         }
       });
 
@@ -181,7 +160,17 @@ export default class Matrix extends Vue {
   }
 
   sortRows(_rows: any[]) {
+    const filteredRows = _rows.filter((r : any) => !r.group);
+
+    if (filteredRows.length == 0) {
+      return _rows;
+    }
+
     return _rows.sort((r1, r2) => {
+      console.log("sortByColumn", this.sortByColumn);
+      console.log("r1", this.sortByColumn);
+      console.log("r2", this.sortByColumn);
+
       const val1 = r1.content[this.sortByColumn].c;
       const val2 = r2.content[this.sortByColumn].c;
       // check if ascending or descending sort
@@ -224,6 +213,35 @@ export default class Matrix extends Vue {
     if (group) {
       group.collapsed = !group.collapsed;
     }
+  }
+
+  getGroupRows(groupRow: any) : any[] {
+    const groupedRows = new Array();
+
+    // adding children
+    let _tempRows: any[];
+
+    // filter
+    const filteredChildren = this.filterRows(groupRow.children);
+
+    if (this.sortable) {
+      _tempRows = this.sortRows(filteredChildren);
+    } else {
+      _tempRows = filteredChildren;
+    }
+
+    _tempRows = filteredChildren;
+
+    _tempRows.forEach((child: any) => {
+      groupedRows.push(child);
+
+      if (child.group && !child.collapsed) {
+        const childRows = this.getGroupRows(child);
+        childRows.forEach((r: any) => groupedRows.push(r));
+      }
+    });
+
+    return groupedRows;
   }
 }
 </script>

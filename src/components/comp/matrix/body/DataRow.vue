@@ -26,7 +26,6 @@ tr {
     class="data-row"
     :class="{selected: row.selected}"
   >
-    <td v-if="grouping"></td>
     <td
       v-for="column in columns"
       :key="column.c"
@@ -46,8 +45,6 @@ export default class DataRow extends Vue {
   @Prop() private columns!: any[];
 
   @Prop() private row!: any;
-
-  @Prop() private grouping!: boolean;
 
   // methods
   getCellValue(columnCode: string) {

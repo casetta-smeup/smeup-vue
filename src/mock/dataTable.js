@@ -229,6 +229,7 @@ export const dataTableFewRows = [
 export const groupedRows = [
   {
     group: true,
+    level: 1,
     collapsed: true,
     text: "Oggetto = CASFRA",
     children: [
@@ -296,6 +297,7 @@ export const groupedRows = [
   },
   {
     group: true,
+    level: 1,
     collapsed: true,
     text: "Oggetto = PARFRA",
     children: [
@@ -348,6 +350,7 @@ export const groupedRows = [
   },
   {
     group: true,
+    level: 1,
     collapsed: true,
     text: "Oggetto = SANCOS",
     children: [
@@ -442,11 +445,13 @@ export const comuniCols = [
 export const comuniRows = [
   {
     group: true,
+    level: 1,
     collapsed: true,
     text: "Regione = Piemonte",
     children: [
       {
         group: true,
+        level: 2,
         collapsed: true,
         text: "Provincia = Torino",
         children: [
@@ -476,6 +481,7 @@ export const comuniRows = [
       },
       {
         group: true,
+        level: 2,
         collapsed: true,
         text: "Provincia = Cuneo",
         children: [
@@ -505,6 +511,7 @@ export const comuniRows = [
       },
       {
         group: true,
+        level: 2,
         collapsed: true,
         text: "Provincia = Asti (che provincia brutta)",
         children: [

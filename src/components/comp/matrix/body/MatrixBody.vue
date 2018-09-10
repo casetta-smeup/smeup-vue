@@ -17,7 +17,6 @@
         :key="index"
         :columns="columns"
         :row="row"
-        :grouping="grouping"
         @rowselect="onRowSelect"
       />
     </template>

@@ -8,11 +8,6 @@ th {
   <thead>
     <tr>
       <th
-        v-if="grouping"
-        style="width: 20px"
-      ></th>
-
-      <th
         v-for="col in columns"
         :key="col.c"
         :style="{ width: col.width }"
