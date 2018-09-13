@@ -212,7 +212,7 @@ export default class Matrix extends Vue {
     }
 
     if (group) {
-      group.collapsed = !group.collapsed;
+      // group.collapsed = !group.collapsed;
     }
   }
 

@@ -8,14 +8,15 @@
   <div class="filter-container">
     <el-input
       v-if="isNumber"
-      v-model="column.filterValue"
+      v-model="filterValue"
+      @change="onValueChange"
     ></el-input>
 
     <el-select
       v-else
       placeholder="Choose one"
       :multiple="true"
-      v-model="column.filterValue">
+      v-model="filterValue">
 
       <el-option
         v-for="(value, index) in comboValues"
@@ -36,6 +37,8 @@ export default class MatrixHeaderFilter extends Vue {
   @Prop() private column!: any;
 
   @Prop() private rows!: any[];
+
+  filterValue: string = this.column.filterValue;
 
   // computed
   get isNumber() {
@@ -71,6 +74,10 @@ export default class MatrixHeaderFilter extends Vue {
     }
 
     return values;
+  }
+
+  onValueChange() {
+    this.$emit("filterby", this.column, this.filterValue);
   }
 }
 </script>

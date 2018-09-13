@@ -64,7 +64,7 @@ import { comuniCols, comuniRows } from "@/mock/dataTable";
 export default class Home extends Vue {
   grouping = false;
   sorting = false;
-  filter = false;
+  filter = true;
 
   dataType = 0;
 

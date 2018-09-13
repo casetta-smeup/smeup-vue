@@ -16,10 +16,13 @@ export default new Router({
     {
       path: "/dyn",
       name: "dyn",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ "./views/Dyn.vue")
+      component: () => import(/* webpackChunkName: "dyn" */ "./views/Dyn.vue")
+    },
+    {
+      path: "/electron",
+      name: "electron",
+      component: () =>
+        import(/* webpackChunkName: "electron" */ "./views/Electron.vue")
     }
   ]
 });

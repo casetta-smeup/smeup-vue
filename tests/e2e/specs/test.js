@@ -1,8 +1,9 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe("My First Test", () => {
-  it("Visits the app root url", () => {
+describe("Test matrix", () => {
+  it("table head should have 8 columns", () => {
     cy.visit("/");
-    cy.contains("h1", "Welcome to Your Vue.js + TypeScript App");
+
+    cy.get(".MAT table thead tr th").should("have.length", 8);
   });
 });
